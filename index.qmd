@@ -1,0 +1,8 @@
+---
+title: Assignment 04
+author: Alex Stout and Rachel Schneider
+format: html
+---
+
+Data: https://www.pewresearch.org/politics/dataset/2014-political-polarization-survey/ 
+
