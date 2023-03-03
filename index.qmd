@@ -6,3 +6,42 @@ format: html
 
 Data: https://www.pewresearch.org/politics/dataset/2014-political-polarization-survey/ 
 
+```{r warning = FALSE, message = FALSE}
+library(haven)
+library(ggplot2)
+library(dplyr)
+
+# Load Data
+data <- read_sav("/Users/alexstout/Desktop/DataScience/assignment04/data/polarization_2014_public.sav")
+
+# Bar Chart
+
+# Select columns and remove missing values
+count_data <- data %>%
+  select(qb5) %>%
+  na.omit()
+
+# Count the number of respondents by answer to qb5
+count_data <- count_data %>%
+  group_by(qb5) %>%
+  summarize(count = n())
+
+# Calculate the percentage of respondents by party and ideology
+percent_data <- count_data %>%
+  group_by(qb5) %>%
+  mutate(percent = count/2527*100)
+
+# Create bar chart
+ggplot(subset(percent_data, qb5 <= 2), aes(x = qb5, y = percent, fill = factor(qb5))) +
+  geom_bar(stat = "identity", position = "dodge") +
+  labs(title = "Desire for Bipartisan Collaboration") +
+  xlab("Should the politicians who share your views work with politicians they disagree with?") +
+  ylab("Pecernt of Respondents") +
+  scale_x_continuous(
+    breaks = c(1, 2),
+    labels = c("Work together", "Stand up for positions")
+  ) +
+  scale_fill_manual(values = c("#00569B", "#80B6D1")) +
+  theme_minimal() +
+  guides(fill = FALSE)
+```
