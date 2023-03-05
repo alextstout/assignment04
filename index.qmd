@@ -45,6 +45,8 @@ ggplot(subset(percent_data, qb12 <= 2), aes(x = qb12, y = percent, fill = factor
   theme_minimal() +
   guides(fill = FALSE)
 ```
+This bar graph displays responses to the question "Thinking about elected officials in Washington who share your positions on the most important issues facing the nation. 1 Should they work with elected officials they disagree with, even if it results in some policies you don’t like [OR] 2	Should they stand up for their positions, even if that means little gets done in Washington". The x-axis shows the response options and the y-axis shows the percentage of people with that response. We can see from the graph that a majority (over 60% of respondents) think the politicians they agree with should work together with those they do not agree with. This is interesting considering the results of the following graph which shows that a plurality of people think there is a great deal of difference between the republican and democratic parties.
+
 
 ```{r warning = FALSE, message = FALSE}
 library(ggplot2)
@@ -84,6 +86,7 @@ cdat_sp + scale_size_area(max_size = 20) +
   scale_y_discrete(limits = qb5_levels, expand = c(0.25, 0.25), labels = c("a great deal", "a fair amount","hardly any")) +
   labs(x = "voter type", y = "difference between democratic and republican parties")
 ```
+This bubble plot displays the answers to the question "Thinking about the Democratic and Republican parties, would you say there is a great deal of difference in what they stand for, a fair amount of difference, or hardly any difference at all?". The answers are displayed by type of area the respondent lives in (either urban, suburban, or rural). This visualization is interesting as it shows the differences in responses by type of area people live in and also displays that, despite a majority of people thinking politicians should work together with those they disagree with, a majority also think there is either "a great deal" or "a fair amount" of difference between the parties.
 
 ```{r warning = FALSE, message = FALSE}
 library(ggplot2)
@@ -147,6 +150,7 @@ map %>%
 )
 
 ```
+This map shows the variation of satisfaction in the US with how things are generally going politically in 2014, and can further show polarization. These results can be compared to visualization four as the West region seems to have a greater satisfaction than the Northeast, and the map shows generally that people are more satisfied with the political state of the US in the west half of the map over the east. Though more research is needed to prove a causal relationship between the two, one can see visually that there is possible correlation.
 
 ```{r warning = FALSE, message = FALSE}
 library(ggplot2)
@@ -186,3 +190,4 @@ library(ggplot2)
 
 
 ```
+This stacked bar chart shows the different levels of happiness across the number of people per region. When looking at the proportions of this graph, we can see that those in the South and West are happiest, and those in the Midwest and Northeast are the least happy. This could be due to the fact that there is more political variation in the Midwest and Northeast than in the South and West, though, more research will need to be conducted to prove this relationship as causal instead of correlative.
