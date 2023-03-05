@@ -84,3 +84,65 @@ cdat_sp + scale_size_area(max_size = 20) +
   scale_y_discrete(limits = qb5_levels, expand = c(0.25, 0.25), labels = c("a great deal", "a fair amount","hardly any")) +
   labs(x = "voter type", y = "difference between democratic and republican parties")
 ```
+```{r warning = FALSE, message = FALSE}
+library(ggplot2)
+library(dplyr)
+library(sf)
+library(tigris) 
+library(stringr)
+
+# Creating the Map of the US
+
+map <- tigris:: states(cb = TRUE, progress_bar = FALSE) %>%
+  filter(!STATEFP %in% c("78", "69", "66", "60", "72", "02", "15"))
+
+map %>%
+  ggplot() + 
+  geom_sf() + 
+  theme_void()
+
+# Cleaning and Combining Data
+
+(vis01 <- Polarization_2014_public %>%
+    filter(qb2 != 9, !is.na(qb2))%>%
+    mutate(state = str_pad(state, side = "left", pad = "0", width = 2)) %>%
+    select(state, respid, qb2) %>%
+    rename(STATEFP = state) %>%
+    group_by(STATEFP, qb2) %>%
+    summarize(qb_count = n())
+)
+
+(state_total <- Polarization_2014_public %>%
+    filter(qb2 != 9, !is.na(qb2))%>%
+    mutate(state = str_pad(state, side = "left", pad = "0", width = 2)) %>%
+    select(state, respid, qb2) %>%
+    rename(STATEFP = state) %>%
+    group_by(STATEFP) %>%
+    summarize(state_count = n())
+)
+
+(vis01 <- left_join(state_total, vis01, by = "STATEFP") %>%
+  mutate(percent = qb_count/state_count) %>%
+    filter(qb2 != 2)
+)
+
+(vis01 <- left_join(map, vis01, by = "STATEFP"))
+
+## Creating the Choropleth
+
+(vis01 %>%  
+  ggplot() +
+  geom_sf(aes( 
+    fill = percent)) + 
+  scale_fill_gradient(
+    low = "#cfe8f3",
+    high = "#062635",
+    labels = scales :: percent) + 
+  theme_void() + 
+  labs(
+    title = "Satisfaction in the United States",
+    caption = "Level of satisfaction with the political state of America",
+    fill = "Percent Satisfied")
+)
+
+```
