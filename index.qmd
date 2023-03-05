@@ -84,6 +84,7 @@ cdat_sp + scale_size_area(max_size = 20) +
   scale_y_discrete(limits = qb5_levels, expand = c(0.25, 0.25), labels = c("a great deal", "a fair amount","hardly any")) +
   labs(x = "voter type", y = "difference between democratic and republican parties")
 ```
+
 ```{r warning = FALSE, message = FALSE}
 library(ggplot2)
 library(dplyr)
@@ -103,7 +104,7 @@ map %>%
 
 # Cleaning and Combining Data
 
-(vis01 <- Polarization_2014_public %>%
+(vis01 <- data %>%
     filter(qb2 != 9, !is.na(qb2))%>%
     mutate(state = str_pad(state, side = "left", pad = "0", width = 2)) %>%
     select(state, respid, qb2) %>%
@@ -112,7 +113,7 @@ map %>%
     summarize(qb_count = n())
 )
 
-(state_total <- Polarization_2014_public %>%
+(state_total <- data %>%
     filter(qb2 != 9, !is.na(qb2))%>%
     mutate(state = str_pad(state, side = "left", pad = "0", width = 2)) %>%
     select(state, respid, qb2) %>%
@@ -144,5 +145,44 @@ map %>%
     caption = "Level of satisfaction with the political state of America",
     fill = "Percent Satisfied")
 )
+
+```
+
+```{r warning = FALSE, message = FALSE}
+library(ggplot2)
+
+## Cleaning and Compiling Data
+(vis02 <- data %>%
+  select(respid, cregion, qa1) %>%
+  filter(qa1 != 9, !is.na(cregion), !is.na(qa1)) %>%
+    mutate(
+      happy = case_when(
+        qa1 == 1 ~ "Very Happy",
+        qa1 == 2 ~ "Somewhat Happy",
+        qa1 == 3 ~ "Not Too Happy"),
+      region = case_when(
+        cregion == 1 ~ "Northeast",
+        cregion == 2 ~ "Midwest",
+        cregion == 3 ~ "South",
+        cregion == 4 ~ "West")) %>%
+    group_by(happy, region) %>%
+    summarize(count = n())
+)
+
+    
+## Creating the Stacked Bar Chart
+
+(vis02 %>%
+  ggplot(
+    aes(fill = happy, x = region, y = count)) +
+  geom_bar(stat = "identity", position = "stack") +
+  labs(
+    title = "Happiness by Region in the United States, 2014",
+    x = "Region",
+    y = "Number of People", 
+    caption = "Level of happiness across regions in the US",
+    fill = "Level")
+)
+
 
 ```
