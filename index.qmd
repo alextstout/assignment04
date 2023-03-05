@@ -46,5 +46,41 @@ ggplot(subset(percent_data, qb12 <= 2), aes(x = qb12, y = percent, fill = factor
   guides(fill = FALSE)
 ```
 
+```{r warning = FALSE, message = FALSE}
+library(ggplot2)
+library(ggpubr)
+theme_set(theme_pubr())
 
+# Create visualization
+
+data("data")
+
+# create balloon chart
+
+# Select columns and remove missing values
+count_dataq5 <- data %>%
+  select(qb5, usr) %>% filter(usr == "U" | usr == "S" | usr == "R") %>%
+  na.omit()
+
+# Count the number of respondents by answer to qb5
+count_dataq5 <- count_dataq5 %>%
+  group_by(qb5, usr) %>%
+  summarize(count = n())
+
+# Create a scatter plot with circle size proportional to count
+cdat_sp <- ggplot(subset(count_dataq5, qb5 <= 3), aes(x = factor(usr), y = factor(qb5), size = count)) +
+  geom_point(shape = 21, colour = "black", fill = "light blue")
+
+# Set the factor levels to include in the x-axis
+usr_levels <- c("U", "S", "R")
+
+# Set the factor levels to include in the y-axis
+qb5_levels <- c(1:3)
+
+# map to area and make circles larger
+cdat_sp + scale_size_area(max_size = 20) +
+  labs(title = "View of level of differnce between parties by voter residential demographic") +
+  scale_x_discrete(limits = usr_levels, expand = c(0.25, 0.25), labels = c("urban", "suburban", "rural")) +
+  scale_y_discrete(limits = qb5_levels, expand = c(0.25, 0.25), labels = c("a great deal", "a fair amount","hardly any")) +
+  labs(x = "voter type", y = "difference between democratic and republican parties")
 ```
