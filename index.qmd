@@ -16,7 +16,7 @@ library(dplyr)
 # Load Data
 data <- read_sav("data/Polarization 2014 public.sav")
 
-# Bar Chart
+# Bar Chart Visualization 1
 
 # Select columns and remove missing values
 count_data <- data %>%
