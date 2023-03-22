@@ -1,7 +1,9 @@
 ---
 title: Assignment 04
 author: Alex Stout and Rachel Schneider
-format: html
+format: 
+  html:
+    self-contained: true
 ---
 
 Data: https://www.pewresearch.org/politics/dataset/2014-political-polarization-survey/ 
@@ -12,7 +14,7 @@ library(ggplot2)
 library(dplyr)
 
 # Load Data
-data <- read_sav("/Users/alexstout/Desktop/DataScience/assignment04/data/polarization_2014_public.sav")
+data <- read_sav("data/Polarization 2014 public.sav")
 
 # Bar Chart
 
