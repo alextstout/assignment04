@@ -39,6 +39,7 @@ ggplot(subset(percent_data, qb12 <= 2), aes(x = qb12, y = percent, fill = factor
   labs(title = "Desire for Bipartisan Collaboration") +
   xlab("Should the politicians who share your views work with politicians they disagree with?") +
   ylab("Pecernt of Respondents") +
+  geom_text(aes(label = percent), position = position_dodge(width = 0.9), vjust = -0.5) +
   scale_x_continuous(
     breaks = c(1, 2),
     labels = c("Work together", "Stand up for positions")
@@ -46,6 +47,7 @@ ggplot(subset(percent_data, qb12 <= 2), aes(x = qb12, y = percent, fill = factor
   scale_fill_manual(values = c("#00569B", "#80B6D1")) +
   theme_minimal() +
   guides(fill = FALSE)
+
 ```
 This bar graph displays responses to the question "Thinking about elected officials in Washington who share your positions on the most important issues facing the nation. 1 Should they work with elected officials they disagree with, even if it results in some policies you don’t like [OR] 2	Should they stand up for their positions, even if that means little gets done in Washington". The x-axis shows the response options and the y-axis shows the percentage of people with that response. We can see from the graph that a majority (over 60% of respondents) think the politicians they agree with should work together with those they do not agree with. This is interesting considering the results of the following graph which shows that a plurality of people think there is a great deal of difference between the republican and democratic parties.
 
