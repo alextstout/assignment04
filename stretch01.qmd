@@ -5,7 +5,7 @@ format:
   html:
     self-contained: true
 ---
-## Stretch exercise from Assignment04 using Assignment05
+## Stretch exercise from Assignment04 using Assignment 05
 
 ```{r warning = FALSE, message = FALSE}
 library(tidyverse)
