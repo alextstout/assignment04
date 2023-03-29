@@ -1,0 +1,35 @@
+---
+title: "Stretch Exercise 01"
+author: "Alex Stout and Rachel Schneider"
+format: 
+  html:
+    self-contained: true
+---
+## Stretch exercise from Assignment04 using Assignment 05
+
+```{r warning = FALSE, message = FALSE}
+library(tidyverse)
+library(httr)
+library(jsonlite)
+library(rjson)
+library(RCurl)
+library(stringr)
+library(sf)
+
+# Question 01
+
+# Load Crimes Data
+crimes_data <- read_csv("/Users/alexstout/Desktop/DataScience/assignment05/data/crimes-reduced.csv", col_types = cols(Longitude = col_character(), Latitude = col_character()))
+
+
+# Load Geospacial Data
+setwd("/Users/alexstout/Desktop/DataScience/assignment05/data")
+crimes_shape_data <- st_read("boundaries_census.shp")
+
+# Replace white space with underscores and lower-case all of the letters in the column names 
+names(crimes_data) <- names(crimes_data) %>% 
+  tolower() %>% 
+  gsub(" ", "_", .)
+names(crimes_data)
+```
+
